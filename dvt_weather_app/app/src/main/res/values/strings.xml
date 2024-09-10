@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">dvt_weather_app</string>
+    <string name="api_key">8e5d32c8fdc64eb9118dfd5676217147</string>
 </resources>

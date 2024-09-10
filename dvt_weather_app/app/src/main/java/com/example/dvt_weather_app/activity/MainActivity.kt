@@ -1,4 +1,4 @@
-package com.example.dvt_weather_app
+package com.example.dvt_weather_app.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.dvt_weather_app.ui.theme.Dvt_weather_appTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
