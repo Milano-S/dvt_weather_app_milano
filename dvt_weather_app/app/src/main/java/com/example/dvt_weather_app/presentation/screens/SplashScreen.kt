@@ -6,6 +6,7 @@ import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.Animatable
@@ -50,10 +51,8 @@ fun SplashScreen(
 
     var permissionsGranted by remember { mutableStateOf(false) }
 
-    val permissionLauncher =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            permissionsGranted =
-                permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true && permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
+    val permissionLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            permissionsGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true && permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
             if (permissionsGranted) {
                 locationViewModel.getLastLocation(
                     application = application,
@@ -63,14 +62,9 @@ fun SplashScreen(
         }
 
     LaunchedEffect(Unit) {
-        initTracker(currentContext) { granted ->
+        requestLocationPermission(currentContext) { granted ->
             if (!granted) {
-                permissionLauncher.launch(
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    )
-                )
+                permissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
             } else {
                 permissionsGranted = true
                 locationViewModel.getLastLocation(
@@ -95,7 +89,6 @@ fun SplashScreen(
         when(locationState != null) {
             true -> {
                 weatherVM.getWeatherForecast(
-                    context = currentContext,
                     lat = locationState!!.latitude,
                     lon = locationState!!.longitude,
                     apiKey = currentContext.getString(R.string.api_key),
@@ -152,18 +145,11 @@ fun SplashScreen(
     }
 }
 
-fun initTracker(context: Context, onPermissionsResult: (Boolean) -> Unit) {
+fun requestLocationPermission(context: Context, onPermissionsResult: (Boolean) -> Unit) {
     val hasFineLocation = ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     val hasCoarseLocation = ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
     if (!hasFineLocation || !hasCoarseLocation) {
-        ActivityCompat.requestPermissions(
-            (context as Activity),
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ),
-            1337
-        )
+        ActivityCompat.requestPermissions((context as Activity), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 1337)
     } else {
         onPermissionsResult(true)
     }

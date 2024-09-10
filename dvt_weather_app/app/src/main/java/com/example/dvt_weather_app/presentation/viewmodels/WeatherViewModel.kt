@@ -16,6 +16,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 private const val TAG = "WeatherViewModel"
 
@@ -24,7 +27,6 @@ class WeatherViewModel : ViewModel() {
     private val _weatherResponseVM: MutableState<WeatherResponse> = mutableStateOf(WeatherResponse(null, null))
     val weatherResponseVM: WeatherResponse get() = _weatherResponseVM.value
     fun getWeatherForecast(
-        context: Context,
         lat: Double,
         lon: Double,
         apiKey: String,
@@ -66,18 +68,15 @@ class WeatherViewModel : ViewModel() {
         Log.i(TAG, "Background : $condition")
     }
 
-    /*private val _backGround: MutableState<Int> = mutableIntStateOf(0)
-    val backGround: Int get() = _backGround.value
-    fun setBackGround(condition: String) {
-        _backGround.value = when (condition) {
-            "Rain" -> R.drawable.rainy
-            "Clear" -> R.drawable.sunny
-            "Clouds" -> R.drawable.cloudy
-            else -> R.drawable.forest
-        }
-        Log.i(TAG, "Background : $condition")
-    }*/
+    fun get5DaysForecastFromJson(){
 
+    }
+
+    fun getCurrentDayName(currentTimeMillis: Long): String {
+        val dateFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+        val date = Date(currentTimeMillis)
+        return dateFormat.format(date)
+    }
 
 }
 
