@@ -2,6 +2,7 @@ package com.example.dvt_weather_app.presentation.screens
 
 import android.Manifest
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
@@ -42,6 +43,7 @@ fun SplashScreen(
 ) {
     val scope = rememberCoroutineScope()
     val currentContext = LocalContext.current
+    val application = currentContext.applicationContext as Application
     val scale = remember { Animatable(0f) }
     val alpha = remember { Animatable(0f) }
 
@@ -52,7 +54,10 @@ fun SplashScreen(
             permissionsGranted =
                 permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true && permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
             if (permissionsGranted) {
-                locationViewModel.getLastLocation()
+                locationViewModel.getLastLocation(
+                    application = application,
+                    context = currentContext
+                )
             }
         }
 
@@ -67,7 +72,10 @@ fun SplashScreen(
                 )
             } else {
                 permissionsGranted = true
-                locationViewModel.getLastLocation()
+                locationViewModel.getLastLocation(
+                    application = application,
+                    context = currentContext
+                )
             }
         }
     }
