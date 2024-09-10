@@ -31,6 +31,7 @@ import com.example.dvt_weather_app.presentation.viewmodels.LocationViewModel
 import com.example.dvt_weather_app.presentation.viewmodels.WeatherViewModel
 import com.example.dvt_weather_app.ui.theme.GradientColor1
 import com.example.dvt_weather_app.ui.theme.GradientColor2
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val TAG = "SplashScreen"
@@ -122,6 +123,7 @@ fun SplashScreen(
         }
 
         scope.launch {
+            delay(3000)
             navController.navigate(Screen.WeatherPage.route)
         }
     }

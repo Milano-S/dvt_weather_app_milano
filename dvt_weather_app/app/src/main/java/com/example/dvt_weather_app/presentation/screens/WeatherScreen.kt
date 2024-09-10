@@ -1,3 +1,5 @@
+package com.example.dvt_weather_app.presentation.screens
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -6,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -13,20 +17,40 @@ import androidx.compose.ui.unit.sp
 import com.example.dvt_weather_app.R
 import com.example.dvt_weather_app.presentation.viewmodels.WeatherViewModel
 import com.example.dvt_weather_app.ui.theme.Font.Companion.poppinsFontFamily
-import com.example.dvt_weather_app.ui.theme.GradientColor1
 
+
+private const val TAG = "com.example.dvt_weather_app.presentation.screens.WeatherScreen"
 @Composable
 fun WeatherScreen(weatherVM: WeatherViewModel) {
 
-    Column(
-        modifier = Modifier
-            .background(GradientColor1)
-            .fillMaxSize()
-            .padding(0.dp)
-    ) {
-        AppHeader()
-        Spacer(modifier = Modifier.height(16.dp))
+    val currentContext = LocalContext.current
 
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource(
+                id = when (weatherVM.backGround) {
+                    "Rain" -> R.drawable.rainy
+                    "Clear" -> R.drawable.sunny
+                    "Clouds" -> R.drawable.cloudy
+                    else -> R.drawable.blank
+                }
+            ),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(0.dp)
+        ) {
+            AppHeader()
+
+        }
     }
 }
 
@@ -50,7 +74,9 @@ private fun AppHeader() {
             fontFamily = poppinsFontFamily
         )
         Image(
-            modifier = Modifier.size(50.dp).padding(end = 15.dp),
+            modifier = Modifier
+                .size(50.dp)
+                .padding(end = 15.dp),
             painter = painterResource(id = R.drawable.storm),
             contentDescription = null,
         )

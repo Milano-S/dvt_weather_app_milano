@@ -59,7 +59,14 @@ class WeatherViewModel : ViewModel() {
         })
     }
 
-    private val _backGround: MutableState<Int> = mutableIntStateOf(0)
+    private val _backGround: MutableState<String> = mutableStateOf("")
+    val backGround: String get() = _backGround.value
+    fun setBackGround(condition: String) {
+        _backGround.value = condition
+        Log.i(TAG, "Background : $condition")
+    }
+
+    /*private val _backGround: MutableState<Int> = mutableIntStateOf(0)
     val backGround: Int get() = _backGround.value
     fun setBackGround(condition: String) {
         _backGround.value = when (condition) {
@@ -69,7 +76,7 @@ class WeatherViewModel : ViewModel() {
             else -> R.drawable.forest
         }
         Log.i(TAG, "Background : $condition")
-    }
+    }*/
 
 
 }
