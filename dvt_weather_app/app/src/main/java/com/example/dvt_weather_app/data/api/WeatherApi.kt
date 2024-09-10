@@ -10,6 +10,7 @@ interface WeatherApi {
     fun getWeatherForecast(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
-        @Query("appid") apiKey: String
+        @Query("appid") apiKey: String,
+        @Query("units") units: String = "metric"
     ): Call<WeatherForecast5Data>
 }

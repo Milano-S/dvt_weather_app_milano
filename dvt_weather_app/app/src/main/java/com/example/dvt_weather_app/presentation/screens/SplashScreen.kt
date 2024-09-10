@@ -91,32 +91,41 @@ fun SplashScreen(
         }
 
         // Get Weather Forecast
-        /*weatherVM.getWeatherForecast(
-            context = currentContext,
-            lat = lat,
-            lon = long,
-            apiKey = currentContext.getString(R.string.api_key),
-        )
-        Log.i(TAG, "Weather Data : ${weatherVM.weatherResponseVM.response?.message}")*/
+        when(locationState != null) {
+            true -> {
+                weatherVM.getWeatherForecast(
+                    context = currentContext,
+                    lat = locationState!!.latitude,
+                    lon = locationState!!.longitude,
+                    apiKey = currentContext.getString(R.string.api_key),
+                )
+                Log.i(TAG, "Weather Data : ${weatherVM.weatherResponseVM.response?.message}")
 
-        scale.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(
-                durationMillis = 1000,
-                easing = FastOutSlowInEasing
-            )
-        )
-        alpha.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(
-                durationMillis = 1000,
-                easing = FastOutSlowInEasing
-            )
-        )
+                scale.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(
+                        durationMillis = 1000,
+                        easing = FastOutSlowInEasing
+                    )
+                )
+                alpha.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(
+                        durationMillis = 1000,
+                        easing = FastOutSlowInEasing
+                    )
+                )
+            }
+            false -> {
+                Log.i(TAG, "Location is null")
+            }
+        }
+
         scope.launch {
             navController.navigate(Screen.WeatherPage.route)
         }
     }
+
 
     Box(
         modifier = Modifier
