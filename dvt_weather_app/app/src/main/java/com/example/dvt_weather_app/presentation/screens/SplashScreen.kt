@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -25,16 +27,19 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.dvt_weather_app.R
 import com.example.dvt_weather_app.navigation.Screen
+import com.example.dvt_weather_app.presentation.viewmodels.LocationViewModel
 import com.example.dvt_weather_app.presentation.viewmodels.WeatherViewModel
 import com.example.dvt_weather_app.ui.theme.GradientColor1
 import com.example.dvt_weather_app.ui.theme.GradientColor2
 import kotlinx.coroutines.launch
 
 
+private const val TAG = "SplashScreen"
 @Composable
 fun SplashScreen(
     navController: NavController,
-    weatherVM: WeatherViewModel
+    weatherVM: WeatherViewModel,
+    locationViewModel: LocationViewModel
 ) {
 
     val scope = rememberCoroutineScope()
@@ -42,14 +47,25 @@ fun SplashScreen(
     val scale = remember { Animatable(0f) }
     val alpha = remember { Animatable(0f) }
 
+    val locationState by remember { derivedStateOf { locationViewModel.location } }
+
     LaunchedEffect(key1 = true) {
 
-        weatherVM.getWeatherForecast(
+        //Get Location
+        locationState?.let {
+            val lat = it.latitude
+            val long = it.longitude
+            Log.i(TAG, "$lat , $long")
+        }
+
+        //Get Weather Forecast
+        /*weatherVM.getWeatherForecast(
             context = currentContext,
             lat = 43.34,
             lon = 10.99,
             apiKey = currentContext.getString(R.string.api_key),
         )
+        Log.i(TAG, "Weather Data : ${weatherVM.weatherResponseVM.response?.message}")*/
 
         scale.animateTo(
             targetValue = 1f,

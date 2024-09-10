@@ -74,4 +74,11 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
+    //Live Data
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    //Location
+    implementation(libs.play.services.location)
+
+
 }

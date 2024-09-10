@@ -4,8 +4,10 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.dvt_weather_app.R
 import com.example.dvt_weather_app.data.api.WeatherApi
 import com.example.dvt_weather_app.data.model.WeatherForecast5Data
 import com.example.dvt_weather_app.data.model.WeatherResponse
@@ -21,7 +23,6 @@ class WeatherViewModel : ViewModel() {
 
     private val _weatherResponseVM: MutableState<WeatherResponse> = mutableStateOf(WeatherResponse(null, null))
     val weatherResponseVM: WeatherResponse get() = _weatherResponseVM.value
-
     fun getWeatherForecast(
         context: Context,
         lat: Double,
@@ -46,6 +47,7 @@ class WeatherViewModel : ViewModel() {
                 val responseData = response.body()
                 if (responseData != null) {
                     _weatherResponseVM.value = WeatherResponse(responseData, null)
+                    setBackGround(responseData.list[0].weather[0].main)
                     Log.i(TAG, "onResponse: $responseData")
                 }
             }
@@ -56,6 +58,19 @@ class WeatherViewModel : ViewModel() {
             }
         })
     }
+
+    private val _backGround: MutableState<Int> = mutableIntStateOf(0)
+    val backGround: Int get() = _backGround.value
+    fun setBackGround(condition: String) {
+        _backGround.value = when (condition) {
+            "Rain" -> R.drawable.rainy
+            "Clear" -> R.drawable.sunny
+            "Clouds" -> R.drawable.cloudy
+            else -> R.drawable.forest
+        }
+        Log.i(TAG, "Background : $condition")
+    }
+
 
 }
 
