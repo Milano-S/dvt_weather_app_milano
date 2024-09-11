@@ -55,10 +55,16 @@ fun WeatherScreen(weatherVM: WeatherViewModel) {
 
             weatherVM.weatherResponseVM.response?.list?.let { weatherList ->
                 weatherVM.getUniqueDaysWeatherData(weatherList).forEach { weatherData ->
-                    WeatherCard(weatherData = weatherData, weatherVM = weatherVM)
+                    WeatherCard(
+                        weatherData = weatherData,
+                        weatherVM = weatherVM,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .padding(horizontal = 10.dp, vertical = 15.dp)
+                    )
                 }
             }
-
         }
     }
 }
