@@ -15,11 +15,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dvt_weather_app.R
+import com.example.dvt_weather_app.presentation.components.WeatherCard
 import com.example.dvt_weather_app.presentation.viewmodels.WeatherViewModel
 import com.example.dvt_weather_app.ui.theme.Font.Companion.poppinsFontFamily
 
 
 private const val TAG = "com.example.dvt_weather_app.presentation.screens.WeatherScreen"
+
 @Composable
 fun WeatherScreen(weatherVM: WeatherViewModel) {
 
@@ -46,9 +48,14 @@ fun WeatherScreen(weatherVM: WeatherViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(0.dp)
+                .padding(0.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             AppHeader()
+
+            weatherVM.weatherResponseVM.response?.list?.take(5)?.forEach { weatherData ->
+                WeatherCard(weatherData = weatherData, weatherVM = weatherVM)
+            }
 
         }
     }

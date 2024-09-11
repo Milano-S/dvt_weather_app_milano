@@ -39,7 +39,7 @@ import com.example.dvt_weather_app.presentation.viewmodels.WeatherViewModel
 import com.example.dvt_weather_app.ui.theme.Font.Companion.poppinsFontFamily
 
 @Composable
-fun WeatherCard(weatherData: WeatherData, weatherVM : WeatherViewModel) {
+fun WeatherCard(weatherData: WeatherData?, weatherVM: WeatherViewModel) {
 
     Card(
         modifier = Modifier
@@ -61,21 +61,35 @@ fun WeatherCard(weatherData: WeatherData, weatherVM : WeatherViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = weatherVM.getCurrentDayName(weatherData.dt.toLong()),
+                    text = if (weatherData != null) weatherVM.getCurrentDayName(weatherData.dt.toLong()) else "Day",
                     fontFamily = poppinsFontFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     color = Color.Black
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.property_1_01_sun_light),
-                    contentDescription = null,
-                    modifier = Modifier.size(60.dp)
-                )
+                if (weatherData != null) {
+                    Image(
+                        painter = painterResource(
+                            id = when (weatherData.weather[0].description) {
+                                "light rain" -> R.drawable.property_1_20_rain_light
+                                "clear sky" -> R.drawable.property_1_01_sun_light
+                                "broken clouds" -> R.drawable.property_1_05_partial_cloudy_light
+                                "overcast clouds" -> R.drawable.property_1_11_mostly_cloudy_light
+                                "moderate rain" -> R.drawable.property_1_20_rain_light
+                                "heavy intensity rain" -> R.drawable.property_1_18_heavy_rain_light
+                                "scattered clouds" -> R.drawable.property_1_07_mostly_cloud_light
+                                else -> R.drawable.property_1_01_sun_light
+                            }
+
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier.size(60.dp)
+                    )
+                }
             }
             Text(
-                text = weatherData.main.temp.toString(),
+                text = if (weatherData != null) (weatherData.main.temp.toString() + "°") else "0°",
                 fontFamily = poppinsFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 36.sp,
