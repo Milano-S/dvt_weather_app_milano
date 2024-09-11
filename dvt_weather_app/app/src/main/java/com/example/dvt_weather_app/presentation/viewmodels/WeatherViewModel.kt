@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.dvt_weather_app.R
 import com.example.dvt_weather_app.data.api.WeatherApi
+import com.example.dvt_weather_app.data.model.WeatherData
 import com.example.dvt_weather_app.data.model.WeatherForecast5Data
 import com.example.dvt_weather_app.data.model.WeatherResponse
 import retrofit2.Call
@@ -68,14 +69,27 @@ class WeatherViewModel : ViewModel() {
         Log.i(TAG, "Background : $condition")
     }
 
-    fun get5DaysForecastFromJson(){
+    fun getUniqueDaysWeatherData(weatherList: List<WeatherData>): List<WeatherData> {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val uniqueDates = mutableSetOf<String>()
+        val uniqueDaysWeatherData = mutableListOf<WeatherData>()
 
+        for (weatherData in weatherList) {
+            val date = dateFormat.format(SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(weatherData.dt_txt))
+            if (uniqueDates.add(date)) {
+                uniqueDaysWeatherData.add(weatherData)
+                if (uniqueDaysWeatherData.size == 5) break
+            }
+        }
+
+        return uniqueDaysWeatherData
     }
 
-    fun getCurrentDayName(currentTimeMillis: Long): String {
-        val dateFormat = SimpleDateFormat("EEEE", Locale.getDefault())
-        val date = Date(currentTimeMillis)
-        return dateFormat.format(date)
+    fun getCurrentDayName(dtTxt: String): String {
+        val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val outputDateFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+        val date = inputDateFormat.parse(dtTxt)
+        return outputDateFormat.format(date)
     }
 
 }

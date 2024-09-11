@@ -61,7 +61,7 @@ fun WeatherCard(weatherData: WeatherData?, weatherVM: WeatherViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = if (weatherData != null) weatherVM.getCurrentDayName(weatherData.dt.toLong()) else "Day",
+                    text = if (weatherData != null) weatherVM.getCurrentDayName(weatherData.dt_txt) else "Day",
                     fontFamily = poppinsFontFamily,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,

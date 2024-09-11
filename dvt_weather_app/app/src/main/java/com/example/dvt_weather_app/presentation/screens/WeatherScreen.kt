@@ -53,8 +53,10 @@ fun WeatherScreen(weatherVM: WeatherViewModel) {
         ) {
             AppHeader()
 
-            weatherVM.weatherResponseVM.response?.list?.take(5)?.forEach { weatherData ->
-                WeatherCard(weatherData = weatherData, weatherVM = weatherVM)
+            weatherVM.weatherResponseVM.response?.list?.let { weatherList ->
+                weatherVM.getUniqueDaysWeatherData(weatherList).forEach { weatherData ->
+                    WeatherCard(weatherData = weatherData, weatherVM = weatherVM)
+                }
             }
 
         }
