@@ -14,3 +14,6 @@ val GradientColor1 = Color.Gray
 val GradientColor2 = Color.Black
 
 val CardEndGradient = Color(0xFFC0C0C0)
+
+val BottomSheetEndGradient = Color(0xFF8B8B8B)
+

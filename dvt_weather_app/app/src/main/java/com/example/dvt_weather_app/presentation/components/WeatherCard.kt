@@ -2,6 +2,7 @@ package com.example.dvt_weather_app.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,25 +36,25 @@ import com.example.dvt_weather_app.data.model.Wind
 import com.example.dvt_weather_app.presentation.viewmodels.WeatherViewModel
 import com.example.dvt_weather_app.ui.theme.CardEndGradient
 import com.example.dvt_weather_app.ui.theme.Font.Companion.poppinsFontFamily
-import com.example.dvt_weather_app.ui.theme.GradientColor1
-import com.example.dvt_weather_app.ui.theme.GradientColor2
 import kotlin.math.roundToInt
 
 @Composable
 fun WeatherCard(
     weatherData: WeatherData?,
     weatherVM: WeatherViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick : () -> Unit
 ) {
 
     Card(
         modifier = modifier
             .fillMaxWidth()
             .background(Color.White, RoundedCornerShape(16.dp)),
-        onClick = { /*TODO*/ }
+        onClick = { onClick.invoke() }
     ) {
         Box(
             modifier = Modifier
+                .clickable { onClick.invoke() }
                 .fillMaxSize()
                 .padding(all = 7.dp)
                 .background(
@@ -149,5 +150,5 @@ private fun PreviewWeatherCard() {
             gust = 0.43
         )
     )
-    WeatherCard(sampleWeatherData, WeatherViewModel())
+    WeatherCard(sampleWeatherData, WeatherViewModel(), onClick = {})
 }
