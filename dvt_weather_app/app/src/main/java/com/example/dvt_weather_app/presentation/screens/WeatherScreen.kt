@@ -1,5 +1,6 @@
 package com.example.dvt_weather_app.presentation.screens
 
+import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -26,6 +27,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,6 +48,7 @@ import com.example.dvt_weather_app.data.model.WeatherData
 import com.example.dvt_weather_app.presentation.components.BottomSheet
 import com.example.dvt_weather_app.presentation.components.MapView
 import com.example.dvt_weather_app.presentation.components.WeatherCard
+import com.example.dvt_weather_app.presentation.viewmodels.LocationViewModel
 import com.example.dvt_weather_app.presentation.viewmodels.WeatherViewModel
 import com.example.dvt_weather_app.ui.theme.BottomSheetEndGradient
 import com.example.dvt_weather_app.ui.theme.CardEndGradient
@@ -59,12 +62,20 @@ private const val TAG = "WeatherScreen"
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WeatherScreen(weatherVM: WeatherViewModel) {
+fun WeatherScreen(weatherVM: WeatherViewModel, locationVM : LocationViewModel) {
 
     val currentContext = LocalContext.current
+    val application = currentContext.applicationContext as Application
     val bottomSheetState = rememberBottomSheetScaffoldState()
     val coroutineScope = rememberCoroutineScope()
     var selectedWeatherData by remember { mutableStateOf<WeatherData?>(null) }
+
+    LaunchedEffect(Unit) {
+        locationVM.getLastLocation(
+            application = application,
+            context = currentContext
+        )
+    }
 
     BottomSheetScaffold(
         containerColor = Color.White,
