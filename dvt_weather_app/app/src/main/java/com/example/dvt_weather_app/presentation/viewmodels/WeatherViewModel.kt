@@ -85,6 +85,7 @@ class WeatherViewModel : ViewModel() {
         return uniqueDaysWeatherData
     }
 
+
     fun getCurrentDayName(dtTxt: String): String {
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val outputDateFormat = SimpleDateFormat("EEEE", Locale.getDefault())

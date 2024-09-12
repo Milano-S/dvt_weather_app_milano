@@ -12,3 +12,5 @@ val Pink40 = Color(0xFF7D5260)
 
 val GradientColor1 = Color.Gray
 val GradientColor2 = Color.Black
+
+val CardEndGradient = Color(0xFFC0C0C0)

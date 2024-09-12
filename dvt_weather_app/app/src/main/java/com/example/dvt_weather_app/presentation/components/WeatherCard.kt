@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,7 +33,11 @@ import com.example.dvt_weather_app.data.model.Weather
 import com.example.dvt_weather_app.data.model.WeatherData
 import com.example.dvt_weather_app.data.model.Wind
 import com.example.dvt_weather_app.presentation.viewmodels.WeatherViewModel
+import com.example.dvt_weather_app.ui.theme.CardEndGradient
 import com.example.dvt_weather_app.ui.theme.Font.Companion.poppinsFontFamily
+import com.example.dvt_weather_app.ui.theme.GradientColor1
+import com.example.dvt_weather_app.ui.theme.GradientColor2
+import kotlin.math.roundToInt
 
 @Composable
 fun WeatherCard(
@@ -51,7 +56,14 @@ fun WeatherCard(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(all = 7.dp)
-                .background(Color.Gray, RoundedCornerShape(16.dp)),
+                .background(
+                    Brush.horizontalGradient(
+                        colors = listOf(
+                            Color.Gray,
+                            CardEndGradient
+                        )
+                    ), RoundedCornerShape(16.dp)
+                ),
         ) {
             Column(
                 modifier = Modifier
@@ -88,7 +100,7 @@ fun WeatherCard(
                 }
             }
             Text(
-                text = if (weatherData != null) (weatherData.main.temp.toString() + "°") else "0°",
+                text = if (weatherData != null) (weatherData.main.temp.roundToInt().toString() + "°") else "0°",
                 fontFamily = poppinsFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 36.sp,

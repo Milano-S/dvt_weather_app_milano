@@ -1,10 +1,7 @@
 package com.example.dvt_weather_app.activity
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
