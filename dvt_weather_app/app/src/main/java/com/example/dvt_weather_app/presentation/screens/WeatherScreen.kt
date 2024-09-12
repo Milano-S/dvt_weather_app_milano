@@ -15,11 +15,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -43,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import com.example.dvt_weather_app.R
 import com.example.dvt_weather_app.data.model.WeatherData
 import com.example.dvt_weather_app.presentation.components.BottomSheet
+import com.example.dvt_weather_app.presentation.components.MapView
 import com.example.dvt_weather_app.presentation.components.WeatherCard
 import com.example.dvt_weather_app.presentation.viewmodels.WeatherViewModel
 import com.example.dvt_weather_app.ui.theme.BottomSheetEndGradient
@@ -68,21 +70,32 @@ fun WeatherScreen(weatherVM: WeatherViewModel) {
         containerColor = Color.White,
         scaffoldState = bottomSheetState,
         sheetContent = {
-            selectedWeatherData?.let { weatherData ->
-                BottomSheet(
-                    weatherData,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            Brush.horizontalGradient(
-                                colors = listOf(
-                                    GradientColor1,
-                                    BottomSheetEndGradient
+            if (selectedWeatherData == null) {
+                //Show Map
+                if (weatherVM.weatherResponseVM.response != null) {
+                    MapView(
+                        lat = weatherVM.weatherResponseVM.response!!.city.coord.lat,
+                        lng = weatherVM.weatherResponseVM.response!!.city.coord.lon
+                    )
+                }
+            } else {
+                //Show Weather Content
+                selectedWeatherData?.let { weatherData ->
+                    BottomSheet(
+                        weatherData, modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                Brush.horizontalGradient(
+                                    colors = listOf(
+                                        GradientColor1,
+                                        BottomSheetEndGradient
+                                    )
                                 )
                             )
-                        )
-                )
+                    )
+                }
             }
+
         },
         sheetPeekHeight = 0.dp,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
@@ -115,9 +128,9 @@ fun WeatherScreen(weatherVM: WeatherViewModel) {
 
                 Box(
                     modifier = Modifier
-                        .wrapContentSize()
-                        .align(Alignment.End)
-                        .padding(top = 10.dp, end = 11.dp)
+                        .fillMaxWidth()
+                        .align(Alignment.Start)
+                        .padding(top = 10.dp, end = 11.dp, start = 11.dp)
                         .background(
                             Brush.horizontalGradient(
                                 colors = listOf(
@@ -129,7 +142,10 @@ fun WeatherScreen(weatherVM: WeatherViewModel) {
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(3.dp)
+                        modifier = Modifier
+                            .padding(3.dp)
+                            .align(Alignment.CenterStart)
+                            .fillMaxWidth()
                     ) {
                         Icon(
                             Icons.Default.LocationOn,
@@ -146,6 +162,25 @@ fun WeatherScreen(weatherVM: WeatherViewModel) {
                             fontSize = 16.sp,
                             color = Color.Black
                         )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Button(
+                            onClick = {
+                                coroutineScope.launch {
+                                    selectedWeatherData = null
+                                    bottomSheetState.bottomSheetState.expand()
+                                }
+                            },
+                            modifier = Modifier.padding(end = 3.dp),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = ButtonColors(
+                                Color.Gray,
+                                Color.Black,
+                                Color.Blue,
+                                Color.Blue,
+                            )
+                        ) {
+                            Text(text = "Map")
+                        }
                     }
                 }
 

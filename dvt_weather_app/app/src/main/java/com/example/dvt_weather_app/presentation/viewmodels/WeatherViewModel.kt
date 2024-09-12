@@ -1,13 +1,9 @@
 package com.example.dvt_weather_app.presentation.viewmodels
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.dvt_weather_app.R
 import com.example.dvt_weather_app.data.api.WeatherApi
 import com.example.dvt_weather_app.data.model.WeatherData
 import com.example.dvt_weather_app.data.model.WeatherForecast5Data
@@ -18,7 +14,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 private const val TAG = "WeatherViewModel"

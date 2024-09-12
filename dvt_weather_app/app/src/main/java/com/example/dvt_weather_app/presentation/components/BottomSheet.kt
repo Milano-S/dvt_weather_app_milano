@@ -58,9 +58,6 @@ fun BottomSheet(weatherData: WeatherData, modifier: Modifier = Modifier) {
             value = "Pressure: ${weatherData.main.pressure} hPa"
         )
         WeatherDetailItem(
-            value = "Ground Level: ${weatherData.main.grnd_level} hPa"
-        )
-        WeatherDetailItem(
             value = "Humidity: ${weatherData.main.humidity} %"
         )
         WeatherDetailItem(

@@ -80,5 +80,7 @@ dependencies {
     //Location
     implementation(libs.play.services.location)
 
+    //Map
+    implementation(libs.maps.compose)
 
 }
